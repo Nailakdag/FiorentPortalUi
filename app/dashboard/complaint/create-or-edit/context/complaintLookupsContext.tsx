@@ -1,7 +1,7 @@
 "use client";
 import { ReactNode, createContext, useContext } from "react";
 
-export type ComplaintLookupsContextProps = {};
+export type ComplaintLookupsContextProps = Record<string, never>;
 
 const ComplaintLookupsContext =
   createContext<ComplaintLookupsContextProps | null>(null);

@@ -54,7 +54,7 @@ function InspectionMainForm({ children }: ComplaintMainFormProps) {
   const { generalStatuses, inspectionTypes, inspectionResponsibles } =
     useInspectionLookupsContext();
 
-  let initialValues = useMemo(() => {
+  const initialValues = useMemo(() => {
     return {
       inspectionKM: null,
       paidAmount: null,

@@ -49,7 +49,7 @@ function VehicleLashAndRescueMainForm({
   const { vehicleLashAndRescue, refetch } = useVehicleLashAndRescueContext();
   const { generalStatuses } = useVehicleLashAndRescueLookupsContext();
 
-  let initialValues = useMemo(() => {
+  const initialValues = useMemo(() => {
     return {
       generalStatus:
         generalStatuses && generalStatuses.length > 0

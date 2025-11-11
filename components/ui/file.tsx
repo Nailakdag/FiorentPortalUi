@@ -311,7 +311,11 @@ const File = React.forwardRef<HTMLDivElement, IFileProps>(({ file }, ref) => {
             onClick={(event: any) => {
               event.stopPropagation();
               event.preventDefault();
-              isImage ? showImage() : downloadFile();
+              if (isImage) {
+                showImage();
+              } else {
+                downloadFile();
+              }
             }}
             className="h-full"
           >

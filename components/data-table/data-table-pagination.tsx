@@ -43,7 +43,7 @@ export function DataTablePagination({
   onPaginationChange,
   setInternalCurrentPage,
 }: IDataTablePaginationProps) {
-  let isLastPage = currentPage * limit > totalPages;
+  const isLastPage = currentPage * limit > totalPages;
   const handlePaginationUpdate = (options: {
     page?: number;
     pageSize?: number;

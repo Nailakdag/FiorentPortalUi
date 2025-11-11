@@ -8,9 +8,8 @@ import {
   ComplaintLookupsContextProps,
   ComplaintLookupsProvider,
 } from "./context/complaintLookupsContext";
-import { useEffect, useState } from "react";
+import { useEffect, useState, Suspense } from "react";
 import CreateEditPageHeader from "@/components/create-or-edit/create-edit-page-header";
-import CreateOrEditTabs from "@/components/create-or-edit/create-or-edit-tabs";
 import { getParsedDate } from "@/lib/utils";
 import { useSearchParams } from "next/navigation";
 import { toast } from "@/components/ui/use-toast";
@@ -35,14 +34,14 @@ const ComplaintWrapper = ({
   );
 };
 
-function ComplaintMainForm({ children }: ComplaintMainFormProps) {
+function ComplaintMainFormContent({ children }: ComplaintMainFormProps) {
   const searchParams = useSearchParams();
   const currentQueryParams = new URLSearchParams(
     Array.from(searchParams.entries()),
   );
   const id = currentQueryParams.get("id");
 
-  let initialValues = {
+  const initialValues = {
     title: null,
     description: null,
     customerName: null,
@@ -147,6 +146,14 @@ function ComplaintMainForm({ children }: ComplaintMainFormProps) {
         </form>
       </FormProvider>
     </section>
+  );
+}
+
+function ComplaintMainForm({ children }: ComplaintMainFormProps) {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <ComplaintMainFormContent>{children}</ComplaintMainFormContent>
+    </Suspense>
   );
 }
 

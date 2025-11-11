@@ -233,9 +233,9 @@ export function AddItemForm({
   const watchedDiscountRate = watch("discountRate") || 0;
 
   React.useEffect(() => {
-    let vatRate = getValues("taxRateId");
-    let unitPrice = parseFloat(getValues("unitPrice"));
-    let discountRate = parseFloat(getValues("discountRate"));
+    const vatRate = getValues("taxRateId");
+    const unitPrice = parseFloat(getValues("unitPrice"));
+    const discountRate = parseFloat(getValues("discountRate"));
     if (
       vatRate !== null &&
       unitPrice !== null &&
@@ -244,10 +244,10 @@ export function AddItemForm({
       discountRate !== null &&
       watchedDiscountRate !== null
     ) {
-      let discountedPrice = unitPrice - (unitPrice * discountRate) / 100;
+      const discountedPrice = unitPrice - (unitPrice * discountRate) / 100;
 
-      let vatAmount = ((discountedPrice * vatRate.code) / 100).toFixed(2);
-      let totalAmount = (unitPrice + parseFloat(vatAmount)).toFixed(2);
+      const vatAmount = ((discountedPrice * vatRate.code) / 100).toFixed(2);
+      const totalAmount = (unitPrice + parseFloat(vatAmount)).toFixed(2);
 
       setValue("vatAmount", vatAmount);
       setValue("totalAmount", totalAmount);

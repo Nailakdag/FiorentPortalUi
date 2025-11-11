@@ -2,6 +2,8 @@
 import React from "react";
 import { useRouter } from "next/navigation";
 import { DataTable, Column } from "../../../components/data-table/data-table";
+import useGlobalFilter from "@/lib/hooks/use-global-filter";
+import { usePagination } from "@/lib/hooks/use-pagination";
 
 const tableData = Array.from({ length: 150 }, (_, i) => ({
   id: i + 1,
@@ -22,11 +24,8 @@ const tableData = Array.from({ length: 150 }, (_, i) => ({
 
 export default function VehicleLashAndRescuePage() {
   const router = useRouter();
-
-  const handleSearch = (searchTerm: string, filteredData: any[]) => {
-    console.log("Search term:", searchTerm);
-    console.log("Filtered data count:", filteredData.length);
-  };
+  const { limit, onPaginationChange, skip } = usePagination();
+  const { globalFilter, setGlobalFilter } = useGlobalFilter(onPaginationChange);
 
   const handleAddClick = () => {
     router.push("/dashboard/vehicle-lash-and-rescue/create-or-edit");
@@ -96,14 +95,19 @@ export default function VehicleLashAndRescuePage() {
       <DataTable
         columns={columns}
         data={tableData}
-        itemsPerPage={10}
+        totalCount={tableData.length}
         emptyMessage="Henüz araç bağlama ve kurtarma kaydı bulunamadı"
         showSearch={true}
         searchPlaceholder="Plaka, marka, model veya duruma göre ara..."
-        onSearch={handleSearch}
         showAddButton={true}
         addButtonText="Yeni Araç Bağlama ve Kurtarma Kaydı Ekle"
         onAddClick={handleAddClick}
+        limit={limit}
+        skip={skip}
+        globalFilter={globalFilter}
+        setGlobalFilter={setGlobalFilter}
+        onPaginationChange={onPaginationChange}
+        externalPagination={false}
       />
     </div>
   );

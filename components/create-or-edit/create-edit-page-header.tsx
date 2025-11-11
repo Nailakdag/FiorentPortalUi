@@ -47,9 +47,11 @@ export default function CreateEditPageHeader({
           <div className="flex items-center gap-4">
             <button
               onClick={() => {
-                backUrl
-                  ? router.push(backUrl)
-                  : router.push("/dashboard/work-orders");
+                if (backUrl) {
+                  router.push(backUrl);
+                } else {
+                  router.push("/dashboard/work-orders");
+                }
               }}
               type="button"
               className="flex items-center justify-center w-12 h-12 bg-transparent border border-gray-600 rounded hover:bg-gray-800 transition-colors"

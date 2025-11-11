@@ -1,11 +1,21 @@
 "use client";
 import React from "react";
 import { DataTable, Column } from "../../../components/data-table/data-table";
+import useGlobalFilter from "@/lib/hooks/use-global-filter";
+import { usePagination } from "@/lib/hooks/use-pagination";
 
 const tableData = Array.from({ length: 150 }, (_, i) => ({
   id: i + 1,
   plaka: `34ABC${100 + i}`,
-  marka: `${i % 5 === 0 ? "Ford" : i % 4 === 0 ? "BMW" : i % 3 === 0 ? "Toyota" : "Renault"}`,
+  marka: `${
+    i % 5 === 0
+      ? "Ford"
+      : i % 4 === 0
+      ? "BMW"
+      : i % 3 === 0
+      ? "Toyota"
+      : "Renault"
+  }`,
   durum: i % 3 === 0 ? "Hazır" : i % 2 === 0 ? "Hazırlanıyor" : "Beklemede",
   model: `Model ${2020 + (i % 5)}`,
   servis: `Servis ${i % 4}`,
@@ -19,10 +29,8 @@ const tableData = Array.from({ length: 150 }, (_, i) => ({
 }));
 
 export default function ReportPage() {
-  const handleSearch = (searchTerm: string, filteredData: any[]) => {
-    console.log("Search term:", searchTerm);
-    console.log("Filtered data count:", filteredData.length);
-  };
+  const { limit, onPaginationChange, skip } = usePagination();
+  const { globalFilter, setGlobalFilter } = useGlobalFilter(onPaginationChange);
 
   const handleAddClick = () => {
     console.log("Yeni rapor ekleme butonu tıklandı");
@@ -52,8 +60,8 @@ export default function ReportPage() {
             value === "Hazır"
               ? "bg-green-100 text-green-800"
               : value === "Hazırlanıyor"
-                ? "bg-yellow-100 text-yellow-800"
-                : "bg-red-100 text-red-800"
+              ? "bg-yellow-100 text-yellow-800"
+              : "bg-red-100 text-red-800"
           }`}
         >
           {value}
@@ -92,14 +100,19 @@ export default function ReportPage() {
       <DataTable
         columns={columns}
         data={tableData}
-        itemsPerPage={10}
+        totalCount={tableData.length}
         emptyMessage="Henüz rapor bulunamadı"
         showSearch={true}
         searchPlaceholder="Plaka, marka, model veya duruma göre ara..."
-        onSearch={handleSearch}
         showAddButton={true}
         addButtonText="Yeni Rapor Ekle"
         onAddClick={handleAddClick}
+        limit={limit}
+        skip={skip}
+        globalFilter={globalFilter}
+        setGlobalFilter={setGlobalFilter}
+        onPaginationChange={onPaginationChange}
+        externalPagination={false}
       />
     </div>
   );

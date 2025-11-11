@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import MainForm from "./main-form";
 
 export default async function ProductLayout({
@@ -5,5 +6,9 @@ export default async function ProductLayout({
 }: {
   children: React.ReactNode;
 }) {
-  return <MainForm lookups={{}}>{children}</MainForm>;
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <MainForm lookups={{}}>{children}</MainForm>
+    </Suspense>
+  );
 }

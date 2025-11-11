@@ -92,7 +92,7 @@ function WorkOrderMainForm({ children }: WorkOrderMainFormProps) {
   const { countries, priorities, channels, subReasons, generalStatus } =
     useWorkOrderLookupsContext();
 
-  let initialValues = useMemo(() => {
+  const initialValues = useMemo(() => {
     return {
       code: null,
       phoneNo: "",

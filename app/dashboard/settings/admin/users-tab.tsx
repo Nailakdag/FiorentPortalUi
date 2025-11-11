@@ -7,6 +7,7 @@ import {
 } from "../../../../components/data-table/data-table";
 import { UserPlus } from "lucide-react";
 import UserModal from "./user-modal";
+import useGlobalFilter from "@/lib/hooks/use-global-filter";
 
 interface User {
   id?: number;
@@ -89,6 +90,9 @@ export default function UsersTab() {
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(10);
+  const { globalFilter, setGlobalFilter } = useGlobalFilter(() => {
+    setCurrentPage(1);
+  });
 
   const handleAddUser = () => {
     setSelectedUser(null);
@@ -140,10 +144,10 @@ export default function UsersTab() {
             value === "admin"
               ? "bg-red-100 text-red-800"
               : value === "operator"
-                ? "bg-yellow-100 text-yellow-800"
-                : value === "technician"
-                  ? "bg-blue-100 text-blue-800"
-                  : "bg-green-100 text-green-800"
+              ? "bg-yellow-100 text-yellow-800"
+              : value === "technician"
+              ? "bg-blue-100 text-blue-800"
+              : "bg-green-100 text-green-800"
           }`}
         >
           {userTypeLabels[value as keyof typeof userTypeLabels] || value}
@@ -250,12 +254,15 @@ export default function UsersTab() {
       <DataTable
         columns={userColumns}
         data={mockUsers}
-        itemsPerPage={10}
+        totalCount={mockUsers.length}
         emptyMessage="Henüz kullanıcı bulunamadı"
         showSearch={true}
         searchPlaceholder="Kullanıcı ara..."
         limit={pageSize}
         skip={(currentPage - 1) * pageSize}
+        globalFilter={globalFilter}
+        setGlobalFilter={setGlobalFilter}
+        externalPagination={false}
       />
 
       <UserModal
